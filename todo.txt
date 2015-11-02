@@ -1,0 +1,9 @@
+Bolletjes grafisch krijgen (Ashwin)
+
+Bolletjes gedrag en structuur maken (Ashwin)
+
+Scherm structuur maken (Marten)
+
+Details scherm voor tasks (Marten)
+
+Opties staat van scherm
