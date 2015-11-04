@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -22,7 +22,8 @@ class Task(Base):
     status = Column(String)
     responsible_person_id = Column(Integer, ForeignKey('Persons.id'))
     executer_person_id = Column(Integer, ForeignKey('Persons.id'))
-    deadline = Column(DateTime)
+    deadline = Column(String)
+    progress = Column(Float)
 
     #Gets all the Id's of all parent tasks
     def getAllParentTasksId():
@@ -40,7 +41,9 @@ class Task(Base):
                 filter(Task.task_id==parent_id):
             lst.append(instance.id)
         #Returns a list
+
         return lst
+
 
     #Gets an Task object with specified Id
     def getTask(id):
