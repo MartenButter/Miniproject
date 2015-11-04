@@ -8,21 +8,26 @@ from kivy.uix.treeview import TreeViewLabel
 from kivy.app import App
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.button import Button
+from sqla_createtaskdatabase import *
+import sqlite3
 
-class TreeViewButton(Button, TreeViewNode):
-    pass
-
-# taken = ['Opbouwen', 'Catering', 'Afbouwen']
+conn = sqlite3.connect('C:/Users/Ashwin/OneDrive/HU/Programming - TICT-V1PROG-15/Miniproject Programming/task_database.db')
+cur = conn.cursor()
 
 # modGroups = [u'Fruit', u'Fruit', u'Meat', u'Dairy', u'Dairy', u'Fruit']
 # modItems = [u'Apple', u'Pear', u'Spam', u'Egg', u'Milk', u'Banana']
 # modDict = dict()
 # modDictUnique = dict()
 
+class TreeViewButton(Button, TreeViewNode):
+    pass
+
 def populate_tree_view(tv):
 
     n1 = tv.add_node(TreeViewLabel(text='Opbouwen'))
     tv.add_node(TreeViewLabel(text='Podium'),n1)
+
+    print(Task.name)
 
     # modDict = zip(modGroups, modItems)
     # print(modGroups)
@@ -42,7 +47,7 @@ def populate_tree_view(tv):
     #     for item in modDictUnique[group]:
     #         tv.add_node(TreeViewButton(text='%s' % item), g)
 
-class POSFMApp(App):
+class TreeViewApp(App):
 
     def build(self):
         #for i in range(30):
@@ -58,4 +63,6 @@ class POSFMApp(App):
         return root
 
 if __name__ == '__main__':
-    POSFMApp().run()
+    TreeViewApp().run()
+
+conn.close()
