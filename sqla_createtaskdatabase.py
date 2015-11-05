@@ -2,13 +2,15 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from datavalidation import calculateProgressDownTree
 
 Base = declarative_base()
 
-engine = create_engine(r'sqlite:///C:\Users\Ashwin\OneDrive\HU\Programming - TICT-V1PROG-15\Miniproject Programming\foo.db')
+engine = create_engine(r'sqlite:///C:\Users\User\PycharmProjects\Miniproject\foo.db')
 Session = sessionmaker()
 Session.configure(bind=engine)
 session = Session()
+
 
 
 class Task(Base):
@@ -18,12 +20,12 @@ class Task(Base):
     name = Column(String)
     description = Column(String)
     task_id =  Column(Integer, ForeignKey('Tasks.id'))
-    duration = Column(Integer)
-    status = Column(String)
+    duration = Column(Integer, default=0)
+    status = Column(String, default="unfinished")
     responsible_person_id = Column(Integer, ForeignKey('Persons.id'))
     executer_person_id = Column(Integer, ForeignKey('Persons.id'))
     deadline = Column(String)
-    progress = Column(Float)
+    progress = Column(Float, default=0.0)
 
     #Gets all the Id's of all parent tasks
     def getAllParentTasksId():
@@ -44,12 +46,11 @@ class Task(Base):
 
         return lst
 
-
     #Gets an Task object with specified Id
     def getTask(id):
         for instance in session.query(Task).\
                 filter(Task.id==id):
-            print('im here!')
+
             #Returns the Task object
             return instance
 
@@ -75,6 +76,41 @@ class Task(Base):
     def updateTask(self):
         session.add(self)
         session.commit()
+
+    #Get the top parent in tree
+    def getTopParentId(task):
+        parent_id = task.task_id
+        if(parent_id == None):
+            return task.id
+        while(parent_id != None):
+            task = Task.getTask(parent_id)
+            parent_id = task.task_id
+
+        if(parent_id == None):
+            return task.id
+        return parent_id
+
+    def getDuration(self):
+
+        l = Task.getAllChildrenTasksId(self.id)
+        print(self.id)
+
+        dur = 0
+        if len(l)==0:
+            return self.duration
+        for t in l:
+            ta = Task.getTask(t)
+            dur += Task.getDuration(ta)
+        if dur > self.duration:
+            self.duration = dur
+            Task.updateTask(self)
+            print (dur)
+            return dur
+        else:
+            return self.duration
+
+
+
 
 class Person(Base):
     __tablename__ = 'Persons'
