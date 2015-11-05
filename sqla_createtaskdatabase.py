@@ -6,7 +6,7 @@ from datavalidation import calculateProgressDownTree
 
 Base = declarative_base()
 
-engine = create_engine(r'sqlite:///C:\Users\User\PycharmProjects\Miniproject\foo.db')
+engine = create_engine(r'sqlite:///C:/Users/Ashwin/OneDrive/HU/Programming - TICT-V1PROG-15/Miniproject Programming/foo.db')
 Session = sessionmaker()
 Session.configure(bind=engine)
 session = Session()
@@ -31,7 +31,7 @@ class Task(Base):
     def getAllParentTasksId():
         lst = []
         for instance in session.query(Task).\
-                filter(Task.task_id==None):
+                filter(Task.task_id==0):
             lst.append(instance.id)
         #Returns them in a list
         return lst

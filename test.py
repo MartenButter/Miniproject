@@ -2,8 +2,6 @@ import sqla_createtaskdatabase
 from datavalidation import calculateProgressDownTree
 
 
-
-taak = sqla_createtaskdatabase.Task.getTask(1)
-duration = sqla_createtaskdatabase.Task.getDuration(taak)
-calculateProgressDownTree(taak.id,taak.status,taak.duration)
-print(duration)
+childrenDCT = sqla_createtaskdatabase.Task.getAllChildrenTasksAndId(1)
+for child in childrenDCT:
+    print(childrenDCT[child].name)
