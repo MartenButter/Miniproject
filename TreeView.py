@@ -8,7 +8,7 @@ from kivy.uix.treeview import TreeViewLabel
 from kivy.app import App
 from kivy.properties import ObjectProperty, StringProperty, ListProperty
 from kivy.uix.button import Button
-from sqla_createtaskdatabase import *
+import sqla_createtaskdatabase
 
 # import sqlite3
 
@@ -28,8 +28,9 @@ def populate_tree_view(tv):
     #HIER WORDT NIETS GEPRINT
     #Als je dB.test.py runt komt er wel gewoon een output
     #WAAROM?
-    for taskName in session.query(Task.name):
+    for taskName in sqla_createtaskdatabase.session.query(sqla_createtaskdatabase.Task.name):
         print(taskName)
+
 
     #Dit wordt dan weer wel geprint
     print("test")

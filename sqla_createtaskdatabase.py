@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
-engine = create_engine('sqlite:///foo.db')
+engine = create_engine(r'sqlite:///C:\Users\Bvh\Contacts\PycharmProjects\Miniproject\foo.db')
 Session = sessionmaker()
 Session.configure(bind=engine)
 session = Session()
@@ -49,6 +49,7 @@ class Task(Base):
     def getTask(id):
         for instance in session.query(Task).\
                 filter(Task.id==id):
+            print('im here!')
             #Returns the Task object
             return instance
 
