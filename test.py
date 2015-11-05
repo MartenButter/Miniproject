@@ -1,8 +1,9 @@
 import sqla_createtaskdatabase
-from data_validation import calculateProgress
+from data_validation import calculateProgressDownTree
 
 
 
 taak = sqla_createtaskdatabase.Task.getTask(1)
 
-print(calculateProgress(taak.id,taak.status, taak.duration))
+
+print(calculateProgressDownTree(taak.id,taak.status, taak.duration))
