@@ -62,5 +62,3 @@ def calculateProgressChild(id_,status,duration):
         sqla_createtaskdatabase.Task.updateTask(task)
         print(progress, duration)
         return progress,duration
-
-
