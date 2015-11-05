@@ -29,7 +29,7 @@ def populate_tree_view(tv):
     #Als je dB.test.py runt komt er wel gewoon een output
     #WAAROM?
     for taskName in session.query(Task.name):
-        print(str(taskName))
+        print(taskName)
 
     #Dit wordt dan weer wel geprint
     print("test")
