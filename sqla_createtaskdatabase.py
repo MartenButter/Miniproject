@@ -2,13 +2,15 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from datavalidation import calculateProgressDownTree
 
 Base = declarative_base()
 
-engine = create_engine(r'sqlite:///C:\Users\Ashwin\OneDrive\HU\Programming - TICT-V1PROG-15\Miniproject Programming\foo.db')
+engine = create_engine(r'sqlite:///C:\Users\User\PycharmProjects\Miniproject\foo.db')
 Session = sessionmaker()
 Session.configure(bind=engine)
 session = Session()
+
 
 
 class Task(Base):
@@ -44,12 +46,11 @@ class Task(Base):
 
         return lst
 
-
     #Gets an Task object with specified Id
     def getTask(id):
         for instance in session.query(Task).\
                 filter(Task.id==id):
-            print('im here!')
+
             #Returns the Task object
             return instance
 
@@ -75,6 +76,32 @@ class Task(Base):
     def updateTask(self):
         session.add(self)
         session.commit()
+
+    #Get the top parent in tree
+    def getTopParentId(task):
+        parent_id = task.task_id
+        if(parent_id == None):
+            return task.id
+        while(parent_id != None):
+            task = Task.getTask(parent_id)
+            parent_id = task.task_id
+
+        if(parent_id == None):
+            return task.id
+        return parent_id
+
+    def getDuration(self):
+        if(self.duration == None):
+            l = Task.getAllChildrenTasksId()
+            duration = 0
+            for t in l:
+                ta = Task.getTask(t)
+                duration += Task.getDuration(ta)
+            return duration
+        else:
+            return self.duration
+
+
 
 class Person(Base):
     __tablename__ = 'Persons'
