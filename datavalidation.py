@@ -63,5 +63,4 @@ def calculateProgressChild(id_,status,duration):
         print(progress, duration)
         return progress,duration
 
-def calculateProgressParent(id_status,duration):
-    pass
+

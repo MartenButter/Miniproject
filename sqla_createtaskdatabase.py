@@ -20,12 +20,12 @@ class Task(Base):
     name = Column(String)
     description = Column(String)
     task_id =  Column(Integer, ForeignKey('Tasks.id'))
-    duration = Column(Integer)
-    status = Column(String)
+    duration = Column(Integer, default=0)
+    status = Column(String, default="unfinished")
     responsible_person_id = Column(Integer, ForeignKey('Persons.id'))
     executer_person_id = Column(Integer, ForeignKey('Persons.id'))
     deadline = Column(String)
-    progress = Column(Float)
+    progress = Column(Float, default=0.0)
 
     #Gets all the Id's of all parent tasks
     def getAllParentTasksId():
@@ -91,15 +91,24 @@ class Task(Base):
         return parent_id
 
     def getDuration(self):
-        if(self.duration == None):
-            l = Task.getAllChildrenTasksId()
-            duration = 0
-            for t in l:
-                ta = Task.getTask(t)
-                duration += Task.getDuration(ta)
-            return duration
+
+        l = Task.getAllChildrenTasksId(self.id)
+        print(self.id)
+
+        dur = 0
+        if len(l)==0:
+            return self.duration
+        for t in l:
+            ta = Task.getTask(t)
+            dur += Task.getDuration(ta)
+        if dur > self.duration:
+            self.duration = dur
+            Task.updateTask(self)
+            print (dur)
+            return dur
         else:
             return self.duration
+
 
 
 
