@@ -25,21 +25,46 @@ class TreeViewButton(Button, TreeViewNode):
 
 def populate_tree_view(tv):
 
-    #HIER WORDT NIETS GEPRINT
-    #Als je dB.test.py runt komt er wel gewoon een output
-    #WAAROM?
-    for taskName in sqla_createtaskdatabase.session.query(sqla_createtaskdatabase.Task.name):
-        print(taskName)
+    def getAllParentTasksId():
+        parentId = []
+        for instance in sqla_createtaskdatabase.session.query(sqla_createtaskdatabase.Task).\
+                filter(sqla_createtaskdatabase.Task.task_id==None):
+            parentId.append(instance.id)
+        #Returns them in a list
+        return parentId
+
+    def getParentTaskNames():
+
+        names = []
+        for name in sqla_createtaskdatabase.session.query(sqla_createtaskdatabase.Task.name).\
+                    filter(sqla_createtaskdatabase.Task.task_id==None):
+            names.append(name[0])
+        return names
+
+    def getChildTaskNames(parentId):
+        childId = []
+        for instance in sqla_createtaskdatabase.session.query(sqla_createtaskdatabase.Task).\
+                filter(sqla_createtaskdatabase.Task.task_id==parentId):
+            childId.append(instance.id)
 
 
-    #Dit wordt dan weer wel geprint
-    print("test")
+    taskNames = getParentTaskNames()
+    for task in taskNames:
+        tv.add_node(TreeViewLabel(text=task))
 
-    # for taskName in session.query(Task.name):
-    #     print(taskName)
+    # for taskName in sqla_createtaskdatabase.session.query(sqla_createtaskdatabase.Task.name).\
+    #             filter(sqla_createtaskdatabase.Task.task_id==None):
+    #     tv.add_node(TreeViewLabel(text=taskName[0]))
+
+    # tasks = []
+
+    # for taskName in sqla_createtaskdatabase.session.query(sqla_createtaskdatabase.Task.name):
+    #     tasks.append(taskName[0])
 
     # for task in tasks:
-    #     tv.add_node(TreeViewLabel(text=task[0]))
+    #     tv.add_node(TreeViewLabel(text=task))
+
+
 
     # tv.add_node(TreeViewLabel(text='Podium'),n1)
 

@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
-engine = create_engine(r'sqlite:///C:\Users\Bvh\Contacts\PycharmProjects\Miniproject\foo.db')
+engine = create_engine(r'sqlite:///C:\Users\Ashwin\OneDrive\HU\Programming - TICT-V1PROG-15\Miniproject Programming\foo.db')
 Session = sessionmaker()
 Session.configure(bind=engine)
 session = Session()
@@ -58,7 +58,7 @@ class Task(Base):
         lst = Task.getAllParentTasksId()
         task_lst = []
         for i in lst:
-            task_lst.Append(Task.getTask(i))
+            task_lst.append(Task.getTask(i))
         #Returns a dictionary with Id's as key and Task objects as value
         return dict(zip(lst,task_lst))
 
