@@ -6,13 +6,14 @@ from kivy.uix.widget import Widget
 from kivy.uix.treeview import TreeView, TreeViewNode
 from kivy.uix.treeview import TreeViewLabel
 from kivy.app import App
-from kivy.properties import ObjectProperty, StringProperty
+from kivy.properties import ObjectProperty, StringProperty, ListProperty
 from kivy.uix.button import Button
 from sqla_createtaskdatabase import *
-import sqlite3
 
-conn = sqlite3.connect('C:/Users/Ashwin/OneDrive/HU/Programming - TICT-V1PROG-15/Miniproject Programming/task_database.db')
-cur = conn.cursor()
+# import sqlite3
+
+# conn = sqlite3.connect('C:/Users/Ashwin/OneDrive/HU/Programming - TICT-V1PROG-15/Miniproject Programming/task_database.db')
+# cur = conn.cursor()
 
 # modGroups = [u'Fruit', u'Fruit', u'Meat', u'Dairy', u'Dairy', u'Fruit']
 # modItems = [u'Apple', u'Pear', u'Spam', u'Egg', u'Milk', u'Banana']
@@ -24,10 +25,22 @@ class TreeViewButton(Button, TreeViewNode):
 
 def populate_tree_view(tv):
 
-    n1 = tv.add_node(TreeViewLabel(text='Opbouwen'))
-    tv.add_node(TreeViewLabel(text='Podium'),n1)
+    #HIER WORDT NIETS GEPRINT
+    #Als je dB.test.py runt komt er wel gewoon een output
+    #WAAROM?
+    for taskName in session.query(Task.name):
+        print(str(taskName))
 
-    print(Task.name)
+    #Dit wordt dan weer wel geprint
+    print("test")
+
+    # for taskName in session.query(Task.name):
+    #     print(taskName)
+
+    # for task in tasks:
+    #     tv.add_node(TreeViewLabel(text=task[0]))
+
+    # tv.add_node(TreeViewLabel(text='Podium'),n1)
 
     # modDict = zip(modGroups, modItems)
     # print(modGroups)
@@ -65,4 +78,4 @@ class TreeViewApp(App):
 if __name__ == '__main__':
     TreeViewApp().run()
 
-conn.close()
+# conn.close()

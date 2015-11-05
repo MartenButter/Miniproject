@@ -87,6 +87,6 @@ class Person(Base):
     date_of_birth = Column(String)
 
 
-if __name__ == '__main__':
-    engine = create_engine('sqlite:///foo.db')
-    Base.metadata.create_all(engine)
+# if __name__ == '__main__':
+# engine = create_engine('sqlite:///foo.db')
+Base.metadata.create_all(engine)
