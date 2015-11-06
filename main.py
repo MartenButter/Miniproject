@@ -11,6 +11,7 @@ from sqla_createtaskdatabase import Task
 from class_details import Details
 
 class TaskApp(App):
+    detailsID = 0
 
     def build(self):
         layout = BoxLayout(orientation='vertical')
@@ -25,7 +26,10 @@ class TaskApp(App):
         sv.add_widget(tv)
         sublayout.add_widget(sv)
         # subsublayout = GridLayout()
-        sublayout.add_widget(Details())
+        if self.detailsID != 0:
+            sublayout.add_widget(Details.test(self.detailsID))
+        else:
+            sublayout.add_widget(Label(text='Select a Task'))
         # sublayout.add_widget(subsublayout)
         # sublayout.add_widget(Button(text='Test'))
 
