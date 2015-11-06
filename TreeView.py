@@ -1,5 +1,5 @@
 __author__ = 'Ashwin Bakker - 1683836'
-
+import class_details
 from kivy.uix.scrollview import ScrollView
 # from kivy.uix.gridlayout import GridLayout
 # from kivy.core.window import Window
@@ -13,11 +13,15 @@ from kivy.lang import Builder
 import sqla_createtaskdatabase
 from sqla_createtaskdatabase import *
 
+
 Builder.load_file('BoomMakeup.kv')
 
 class TreeViewButton(Button, TreeViewNode):
+    tskID = 0
     def test(self):
-        print('Test')
+        class_details.Details.update(self.tskID)
+        print(self.tskID)
+    pass
 
 def populate_tree_view(tv):
 
@@ -28,6 +32,7 @@ def populate_tree_view(tv):
         lst = []
         for ID in parentIDS:
             tvl = TreeViewButton(text=parentIDS[ID].name)
+            tvl.tskID = ID
             print('CreateParentNode')
             n = tv.add_node(tvl)
             CreateChildNodes(tv, ID, n)
@@ -42,6 +47,7 @@ def populate_tree_view(tv):
             for child in childrenDCT:
                 print(child)
                 tvl = TreeViewButton(text=childrenDCT[child].name)
+                tvl.tskID = child
                 g = tv.add_node(tvl,n)
                 tvl = CreateChildNodes(tv, child,g)
 
