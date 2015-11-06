@@ -13,7 +13,7 @@ class Details(BoxLayout):
     #     layout.add_widget(Label(text='Test Label'))
     #     return self
 
-    def test(id):
+    def giveDetailsObject(id):
         task = Task.getTask(id)
         layout = BoxLayout(orientation='vertical')
         layout.add_widget(Label(text='Name:'))
@@ -36,4 +36,4 @@ class Details(BoxLayout):
         return layout
 
     def update(tskID):
-        Details.test(tskID)
+        Details.giveDetailsObject(tskID)

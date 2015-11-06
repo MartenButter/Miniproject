@@ -14,12 +14,17 @@ import sqla_createtaskdatabase
 from sqla_createtaskdatabase import *
 
 
+
 Builder.load_file('BoomMakeup.kv')
 
 class TreeViewButton(Button, TreeViewNode):
     tskID = 0
-    def test(self):
-        class_details.Details.update(self.tskID)
+    treeview = TreeView();
+
+    def select_task(self):
+        self.treeview.app.detailsID = self.tskID
+        self.treeview.app.taskId= self.tskID
+        self.treeview.app.updateDetails()
         print(self.tskID)
     pass
 
@@ -32,6 +37,7 @@ def populate_tree_view(tv):
         lst = []
         for ID in parentIDS:
             tvl = TreeViewButton(text=parentIDS[ID].name)
+            tvl.treeview = tv
             tvl.tskID = ID
             print('CreateParentNode')
             n = tv.add_node(tvl)
@@ -47,6 +53,7 @@ def populate_tree_view(tv):
             for child in childrenDCT:
                 print(child)
                 tvl = TreeViewButton(text=childrenDCT[child].name)
+                tvl.treeview = tv
                 tvl.tskID = child
                 g = tv.add_node(tvl,n)
                 tvl = CreateChildNodes(tv, child,g)
@@ -78,8 +85,12 @@ def populate_tree_view(tv):
         # for child in (childNames[0][:]+childNames[1][:]):
         #     tv.add_node(TreeViewButton(text=child), g)
         # # print(childNames[0][:]+childNames[1][:])
-
     CreateTree(tv)
+
+class CustomTreeView(TreeView):
+    app = App()
+
+
 
     # addNodes()
 

@@ -1,0 +1,33 @@
+<AddTaskScreen>:
+    orientation: "vertical"
+    GridLayout:
+        cols: 2
+        Label:
+            text:"Name"
+        TextInput:
+            id: taskname
+            hint_text: "Name of Task"
+            text: root.noneToString(root.task.name)
+        Label:
+            text:"Description"
+        TextInput:
+            id: taskdescription
+            hint_text: "Description of task"
+            text: root.noneToString(root.task.description)
+        Label:
+            text:"Duration"
+        TextInput:
+            id:taskduration
+            hint_text: "Duration of task in hours"
+            text: root.noneToString(root.task.duration)
+        Label:
+            text:"Deadline"
+        TextInput:
+            id: taskdeadline
+            hint_text: "Deadline of task"
+            text: root.noneToString(root.task.deadline)
+
+    Button:
+        text: 'Create new Task'
+        size_hint_y: 0.2
+        on_press: root.createParentTask(taskname.text,taskdescription.text,taskduration.text,taskdeadline.text)

@@ -19,7 +19,7 @@ class Task(Base):
     id = Column(Integer,primary_key=True)
     name = Column(String)
     description = Column(String)
-    task_id =  Column(Integer, ForeignKey('Tasks.id'))
+    task_id =  Column(Integer,ForeignKey('Tasks.id'), default=0)
     duration = Column(Integer, default=0)
     status = Column(String, default="unfinished")
     responsible_person_id = Column(Integer, ForeignKey('Persons.id'))

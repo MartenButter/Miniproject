@@ -1,0 +1,12 @@
+<MenuBar>
+    size_hint: 1,0.2
+    orientation: 'horizontal'
+    Button:
+        text:'Edit Task'
+        on_press: root.create_task_screen(0)
+    Button:
+        text:'Create new parent task'
+        on_press: root.create_task_screen(1)
+    Button:
+        text: 'Create new subtask'
+        on_press: root.create_task_screen(2)

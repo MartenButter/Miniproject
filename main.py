@@ -4,36 +4,79 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
-from TreeView import TreeView,populate_tree_view
+from TreeView import TreeView,populate_tree_view,CustomTreeView
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.widget import Widget
 from sqla_createtaskdatabase import Task
 from class_details import Details
+from class_menubar import MenuBar
+from class_task_add import AddTaskScreen
 
 class TaskApp(App):
     detailsID = 0
+    BiD = 0
+    taskId = 0
 
     def build(self):
-        layout = BoxLayout(orientation='vertical')
-        layout.add_widget(Button(text='Hello 1',size_hint=(1,0.2)))
-        sublayout = BoxLayout(orientation='horizontal')
-        layout.add_widget(sublayout)
-        tv = TreeView(root_options=dict(text='Tree One'), hide_root=True, indent_level=4)
-        tv.size_hint = 1, None
-        tv.bind(minimum_height = tv.setter('height'))
-        populate_tree_view(tv)
-        sv = ScrollView()
-        sv.add_widget(tv)
-        sublayout.add_widget(sv)
+        self.layout = BoxLayout(orientation='vertical')
+        self.menuBar = MenuBar()
+        self.menuBar.app = self
+        self.layout.add_widget(self.menuBar)
+        self.sublayout = BoxLayout(orientation='horizontal')
+        self.layout.add_widget(self.sublayout)
+        self.tv = CustomTreeView(root_options=dict(text='Tree One'), hide_root=True, indent_level=4)
+        self.tv.size_hint = 1, None
+        self.tv.bind(minimum_height = self.tv.setter('height'))
+        self.tv.app = self
+        populate_tree_view(self.tv)
+        self.sv = ScrollView()
+        self.sv.add_widget(self.tv)
+        self.sublayout.add_widget(self.sv)
         # subsublayout = GridLayout()
         if self.detailsID != 0:
-            sublayout.add_widget(Details.test(self.detailsID))
+            self.details = Details.giveDetailsObject(self.detailsID)
+            self.sublayout.add_widget(self.details)
         else:
-            sublayout.add_widget(Label(text='Select a Task'))
+            self.details = BoxLayout(orientation="vertical")
+            self.sublayout.add_widget(self.details)
         # sublayout.add_widget(subsublayout)
         # sublayout.add_widget(Button(text='Test'))
 
-        return  layout
+        return  self.layout
+
+    def updateDetails(self, *args):
+        children = self.sublayout.children[:1]
+
+        self.sublayout.clear_widgets(children=children)
+        self.details = Details.giveDetailsObject(self.detailsID)
+        self.sublayout.add_widget(self.details)
+
+    def getTaskScreen(self,*args):
+        children = self.sublayout.children[:1]
+        self.sublayout.clear_widgets(children=children)
+        print(self.taskId, 'taskid')
+        print(self.BiD, 'buildid')
+        self.details = AddTaskScreen(task=AddTaskScreen.get_rigt_task_for_task_screen(self.taskId,self.BiD), app=self)
+        print("after AddTaskScreen()")
+        #self.details.buildID = self.BiD
+        #self.details.task = Task.getTask(self.taskId)
+        #self.details.app = self
+        self.sublayout.add_widget(self.details)
+        print('im here')
+
+    # def update_treeview(self,*args):
+    #     children = self.sublayout.children[1:]
+    #     self.sublayout.clear_widgets(children=children)
+    #     self.sv.clear_widgets()
+    #     self.tv = CustomTreeView(root_options=dict(text='Tree One'), hide_root=True, indent_level=4)
+    #     self.tv.size_hint = 1, None
+    #     self.tv.bind(minimum_height = self.tv.setter('height'))
+    #     self.tv.app = self
+    #     populate_tree_view(self.tv)
+    #     self.sv = ScrollView()
+    #     self.sv.add_widget(self.tv,index=0)
+    #     self.sublayout.add_widget(self.sv)
+
 
 
 
